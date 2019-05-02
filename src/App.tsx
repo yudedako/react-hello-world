@@ -1,25 +1,29 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const App : React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <p>
-          Hello, World!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    const logoOptions = {
+      alt: "logo",
+      className: "App-logo",
+      src: logo
+    };
+
+    const title = "こんにちは React";
+    const targets = ["World", "Kanae", "Yukina"];
+
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img {...logoOptions}/> {title && <p>{title}</p>}
+          {targets.map(target => (
+            <p>Hello, {target}!</p>
+          ))}
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
