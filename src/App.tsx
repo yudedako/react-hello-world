@@ -1,18 +1,26 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import "./App.css";
-import { Button, Statistic, Card } from "semantic-ui-react";
+import { Button, Card, Icon, Statistic } from "semantic-ui-react";
+
+const LIMIT = 60;
 
 const App: FC = () => {
-  const [count, setCount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(LIMIT);
 
-  const increment = () => {
-    setCount(count + 1);
+  const reset = () => {
+    setTimeLeft(LIMIT);
   };
 
-  const decrement = () => {
-    setCount(count - 1);
+  const tick = () => {
+    setTimeLeft(prevTime => (prevTime === 0 ? LIMIT : prevTime - 1));
   };
+
+  useEffect(() => {
+    const timerId = setInterval(tick, 1000);
+
+    return () => clearInterval(timerId);
+  }, []);
 
   return (
     <div className="container">
@@ -21,18 +29,14 @@ const App: FC = () => {
       </header>
       <Card>
         <Statistic className="number-board">
-          <Statistic.Label>count</Statistic.Label>
-          <Statistic.Value>{count}</Statistic.Value>
+          <Statistic.Label>time</Statistic.Label>
+          <Statistic.Value>{timeLeft}</Statistic.Value>
         </Statistic>
         <Card.Content>
-          <div className="ui two buttons">
-            <Button color="red" onClick={decrement}>
-              -1
-            </Button>
-            <Button color="green" onClick={increment}>
-              +1
-            </Button>
-          </div>
+          <Button color="red" fluid onClick={reset}>
+            <Icon name="redo" />
+            Reset
+          </Button>
         </Card.Content>
       </Card>
     </div>
