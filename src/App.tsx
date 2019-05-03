@@ -1,67 +1,42 @@
-import React, { Component, SyntheticEvent } from "react";
+import React, { FC, useState } from "react";
 
 import "./App.css";
-import { Button, Statistic, Card, Icon } from "semantic-ui-react";
+import { Button, Statistic, Card } from "semantic-ui-react";
 
-const LIMIT = 60;
+const App: FC = () => {
+  const [count, setCount] = useState(0);
 
-interface AppState {
-  timeLeft: number;
-}
-class App extends Component<{}, AppState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = { timeLeft: LIMIT };
-  }
-
-  reset = () => {
-    this.setState({ timeLeft: LIMIT });
+  const increment = () => {
+    setCount(count + 1);
   };
 
-  tick = () => {
-    this.setState(prevState => ({ timeLeft: prevState.timeLeft - 1 }));
+  const decrement = () => {
+    setCount(count - 1);
   };
 
-  componentDidMount = () => {
-    this.timerId = setInterval(this.tick, 1000);
-  };
-
-  componentDidUpdate = () => {
-    const { timeLeft } = this.state;
-    if (timeLeft === 0) {
-      this.reset();
-    }
-  };
-
-  componentWillUnmount = () => {
-    clearInterval(this.timerId as NodeJS.Timer);
-  };
-
-  timerId?: NodeJS.Timer;
-
-  render() {
-    const { timeLeft } = this.state;
-
-    return (
-      <div className="container">
-        <header>
-          <h1>タイマー</h1>
-        </header>
-        <Card>
-          <Statistic className="number-board">
-            <Statistic.Label>time</Statistic.Label>
-            <Statistic.Value>{timeLeft}</Statistic.Value>
-          </Statistic>
-          <Card.Content>
-            <Button color="red" onClick={this.reset}>
-              <Icon name="redo" />
-              Reset
+  return (
+    <div className="container">
+      <header>
+        <h1>カウンター</h1>
+      </header>
+      <Card>
+        <Statistic className="number-board">
+          <Statistic.Label>count</Statistic.Label>
+          <Statistic.Value>{count}</Statistic.Value>
+        </Statistic>
+        <Card.Content>
+          <div className="ui two buttons">
+            <Button color="red" onClick={decrement}>
+              -1
             </Button>
-          </Card.Content>
-        </Card>
-      </div>
-    );
-  }
-}
+            <Button color="green" onClick={increment}>
+              +1
+            </Button>
+          </div>
+        </Card.Content>
+      </Card>
+    </div>
+  );
+};
 
 export default App;
