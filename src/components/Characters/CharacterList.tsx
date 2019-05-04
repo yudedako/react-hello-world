@@ -1,12 +1,6 @@
 import React, { FC } from "react";
 import { Header, Icon, Item } from "semantic-ui-react";
-
-export interface Character {
-  id: number;
-  name: string;
-  age: number;
-  height?: number;
-}
+import { Character } from "../../characterData";
 
 interface CharacterListProps {
   school: string;

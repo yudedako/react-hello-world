@@ -1,46 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
+import { Redirect, Route, Switch } from "react-router";
+
+import Home from "./components/Home";
+import Characters from "./components/Characters";
 
 import "./App.css";
-import { Button, Card, Icon, Statistic } from "semantic-ui-react";
 
-const LIMIT = 60;
-
-const App: FC = () => {
-  const [timeLeft, setTimeLeft] = useState(LIMIT);
-
-  const reset = () => {
-    setTimeLeft(LIMIT);
-  };
-
-  const tick = () => {
-    setTimeLeft(prevTime => (prevTime === 0 ? LIMIT : prevTime - 1));
-  };
-
-  useEffect(() => {
-    const timerId = setInterval(tick, 1000);
-
-    return () => clearInterval(timerId);
-  }, []);
-
-  return (
-    <div className="container">
-      <header>
-        <h1>カウンター</h1>
-      </header>
-      <Card>
-        <Statistic className="number-board">
-          <Statistic.Label>time</Statistic.Label>
-          <Statistic.Value>{timeLeft}</Statistic.Value>
-        </Statistic>
-        <Card.Content>
-          <Button color="red" fluid onClick={reset}>
-            <Icon name="redo" />
-            Reset
-          </Button>
-        </Card.Content>
-      </Card>
-    </div>
-  );
-};
+const App: FC<{}> = () => (
+  <div className="container">
+    <Switch>
+      <Route path="/characters/:code" component={Characters} />
+      <Route path="/" component={Home} />
+      <Redirect to="/" />
+    </Switch>
+  </div>
+);
 
 export default App;
